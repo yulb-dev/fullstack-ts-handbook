@@ -1,8 +1,28 @@
-# FullStack Docs
+# FullStack TS Handbook
 
-全栈技术学习文档库，涵盖前端、后端、数据库与工程化实践的系统性教程，每个专题均包含章节文档与可运行的 `example` 示例代码。
+以 TypeScript 为主线的现代全栈学习手册：从前端样式、路由、状态管理，到后端 API、数据库、ORM、鉴权与接口契约，每个专题都由「编号章节 + 可运行的 `example` 示例」组成，并配套学习路线图与毕业项目手册。
 
 ## 目录结构
+
+```text
+fullstack-ts-handbook/
+├── 2.tailwind-tutorial/                 # Tailwind CSS
+├── 3.react-router-tutorial/             # React Router（数据模式）
+├── 4.tanstack-query-zustand-tutorial/   # TanStack Query + Zustand
+├── 5.accessible-forms-tutorial/         # 表单与无障碍（shadcn/RHF/Zod）
+├── 7.fastify-api-tutorial/              # Fastify API
+├── 8.supabase-postgres-tutorial/        # Supabase / PostgreSQL
+├── 9.drizzle-orm-tutorial/              # Drizzle ORM
+├── 10.better-auth-tutorial/             # Better Auth
+├── 11.api-contract-tutorial/            # API 契约
+├── 专项/                                 # 各主题的独立长文与 PDF 版本
+├── docs/
+│   ├── roadmap/                         # 全栈技术栈学习路线图
+│   └── flowops/                         # FlowOps 毕业项目开发手册
+└── assets/images/                       # 文档图片资源
+```
+
+## 教程专题
 
 | 目录 | 主题 | 说明 |
 | --- | --- | --- |
@@ -15,17 +35,16 @@
 | `9.drizzle-orm-tutorial/` | Drizzle ORM | Schema 建模、迁移、事务、查询与性能 |
 | `10.better-auth-tutorial/` | Better Auth | 会话、CSRF、OAuth、组织与 RBAC |
 | `11.api-contract-tutorial/` | API 契约 | Monorepo、Schema 即契约、代码生成与 CI |
-| `专项/` | 专题合集 | 各主题的独立长文与 PDF 版本 |
-| `image/` | 图片资源 | 文档引用的截图 |
+| `专项/` | 专题合集 | 各主题的单文件长文与 PDF 版本 |
 
-## 其他文档
+## 路线图与毕业项目
 
-- [fullstack_tech_stack_learning_roadmap.pdf](./fullstack_tech_stack_learning_roadmap.pdf) — 全栈技术栈学习路线图
-- [FlowOps_开发手册.md](./FlowOps_开发手册.md) — FlowOps 开发手册
+- [全栈技术栈学习路线图（PDF）](./docs/roadmap/fullstack_tech_stack_learning_roadmap.pdf) — 整体学习顺序与技术选型
+- [FlowOps 开发手册](./docs/flowops/FlowOps_开发手册.md) — 综合运用上述技术栈的企业级多租户工单/流程协同平台设计
 
 ## 使用说明
 
-每个教程目录下的章节按编号顺序阅读，`example/` 目录为配套示例代码，进入后执行依赖安装即可运行（多数使用 npm 或 pnpm）。
+每个教程目录下的章节按编号顺序阅读，`example/` 目录为配套示例代码，进入后安装依赖即可运行（多数使用 npm 或 pnpm）。
 
 ```bash
 cd <教程目录>/example
