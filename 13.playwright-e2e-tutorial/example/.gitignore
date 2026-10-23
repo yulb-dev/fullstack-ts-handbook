@@ -1,0 +1,9 @@
+node_modules/
+test-results/
+playwright-report/
+playwright/.cache/
+# storageState 会话文件可能含敏感 cookie，绝不提交
+playwright/.auth/
+.env
+*.log
+.DS_Store

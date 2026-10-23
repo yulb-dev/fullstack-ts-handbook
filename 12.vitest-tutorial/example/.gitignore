@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+.vitest/
+.pglite/
+.pgdata/
+.env
+*.log
+.DS_Store

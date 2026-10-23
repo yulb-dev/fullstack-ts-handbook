@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TaskBoard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div id="root">
+      <!-- 登录视图 -->
+      <section id="login-view" class="login-view" aria-labelledby="login-heading" hidden>
+        <form id="login-form" class="card login-card">
+          <h1 id="login-heading">登录 TaskBoard</h1>
+          <p id="login-error" class="error" role="alert" hidden></p>
+          <div class="field">
+            <label for="email">邮箱</label>
+            <input id="email" name="email" type="email" autocomplete="username" required />
+          </div>
+          <div class="field">
+            <label for="password">密码</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required />
+          </div>
+          <button type="submit">登录</button>
+        </form>
+      </section>
+
+      <!-- 主应用视图 -->
+      <div id="app-view" hidden>
+        <header class="app-header">
+          <strong class="brand">TaskBoard</strong>
+          <span id="current-user"></span>
+          <label class="visually-hidden" for="workspace-select">当前工作区</label>
+          <select id="workspace-select"></select>
+          <button id="signout" type="button">退出登录</button>
+        </header>
+
+        <main>
+          <section aria-labelledby="tasks-heading">
+            <h1 id="tasks-heading">任务列表</h1>
+
+            <form id="new-task-form" class="card new-task">
+              <h2 class="visually-hidden">新建任务</h2>
+              <div class="field grow">
+                <label for="new-task-title">任务标题</label>
+                <!-- 刻意不加 maxlength：让服务端校验也能被 E2E 测试触发（前端另有空标题拦截） -->
+                <input id="new-task-title" name="title" placeholder="例如：编写发布说明" />
+              </div>
+              <button type="submit">新建任务</button>
+            </form>
+            <p id="new-task-error" class="error" role="alert" hidden></p>
+
+            <div class="toolbar">
+              <div class="field">
+                <label for="search-input">搜索标题</label>
+                <input id="search-input" type="search" placeholder="输入关键词后按回车" />
+              </div>
+              <div class="field">
+                <label for="status-filter">按状态筛选</label>
+                <select id="status-filter">
+                  <option value="all">全部</option>
+                  <option value="todo">待办</option>
+                  <option value="doing">进行中</option>
+                  <option value="done">已完成</option>
+                </select>
+              </div>
+            </div>
+
+            <p id="tasks-error" class="error" role="alert" hidden></p>
+            <button id="tasks-retry" type="button" hidden>重试</button>
+            <!-- 初始即显示（会话恢复中的加载态），由 renderTasks 接管后续显隐 -->
+            <p id="tasks-loading" role="status">加载中…</p>
+            <ul id="task-list" class="task-list"></ul>
+            <p id="tasks-empty" hidden>没有符合条件的任务</p>
+
+            <nav class="pagination" aria-label="任务分页">
+              <button id="prev-page" type="button">上一页</button>
+              <span id="page-info" aria-live="polite"></span>
+              <button id="next-page" type="button">下一页</button>
+            </nav>
+          </section>
+        </main>
+      </div>
+
+      <!-- 任务详情对话框 -->
+      <dialog id="task-dialog" aria-labelledby="task-dialog-title">
+        <form id="task-form" method="dialog">
+          <h2 id="task-dialog-title">任务详情</h2>
+          <p id="task-detail-error" class="error" role="alert" hidden></p>
+          <div class="field">
+            <label for="task-title">标题</label>
+            <input id="task-title" name="title" maxlength="80" />
+          </div>
+          <div class="field">
+            <label for="task-status">状态</label>
+            <select id="task-status" name="status">
+              <option value="todo">待办</option>
+              <option value="doing">进行中</option>
+              <option value="done">已完成</option>
+            </select>
+          </div>
+          <div class="field" id="notes-field" hidden>
+            <label for="task-notes">内部备注（仅管理员）</label>
+            <input id="task-notes" name="notes" />
+          </div>
+          <p class="meta">负责人：<span id="task-assignee"></span></p>
+          <menu class="dialog-actions">
+            <button id="save-task" type="submit">保存</button>
+            <button id="close-dialog" type="button" value="cancel">关闭</button>
+          </menu>
+        </form>
+      </dialog>
+    </div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
