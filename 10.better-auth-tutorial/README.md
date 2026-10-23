@@ -30,7 +30,7 @@
 
 需要会 JavaScript/TypeScript、Promise、async/await 和基本 HTTP 请求。熟悉 React 有帮助，但不用先掌握所有后端框架，也不需要 Python。
 
-建议先了解 Postgres 表、主外键与事务；如果还不熟悉，可结合工作区 [Drizzle 教程](../drizzle-orm-tutorial/README.md) 的 SQL/建模章节阅读，但保持两套工程的版本隔离。
+建议先了解 Postgres 表、主外键与事务；如果还不熟悉，可结合工作区 [Drizzle 教程](../9.drizzle-orm-tutorial/README.md) 的 SQL/建模章节阅读，但保持两套工程的版本隔离。
 
 前端采用最小 Vite + TypeScript 页面，不把表单库、路由或 UI 样式变成认证学习的前置门槛；第5章给出 React useSession 用法。
 

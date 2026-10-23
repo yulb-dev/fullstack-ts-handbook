@@ -480,6 +480,6 @@ retry-after: 60
 - 安全响应头与 CORS：[@fastify/helmet](https://github.com/fastify/fastify-helmet)、[@fastify/cors](https://github.com/fastify/fastify-cors)
 - 自动加载插件与路由：[@fastify/autoload](https://github.com/fastify/fastify-autoload)
 - 可观测性：Fastify 的 [diagnostics channel hooks](https://fastify.dev/docs/latest/Reference/Hooks/#diagnostics-channel-hooks) 与 OpenTelemetry
-- 数据层：本仓库的 [Drizzle ORM 教程](../drizzle-orm-tutorial/README.md)
+- 数据层：本仓库的 [Drizzle ORM 教程](../9.drizzle-orm-tutorial/README.md)
 
 回到[目录](./README.md)。

@@ -63,7 +63,7 @@
 - Node.js ≥ 20（Vite 7 要求）；
 - 一个包管理器：`npm` / `pnpm` / `bun` / `yarn` 任选（本教程用 `pnpm`，命令等价替换即可）；
 - 会 React 基础（组件、props、state、hooks）；
-- 会 Tailwind 基础（不熟悉可先读本仓库的 [`tailwind-tutorial`](../tailwind-tutorial/README.md)）。
+- 会 Tailwind 基础（不熟悉可先读本仓库的 [`tailwind-tutorial`](../2.tailwind-tutorial/README.md)）。
 
 ---
 

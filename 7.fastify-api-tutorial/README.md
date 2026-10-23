@@ -36,7 +36,7 @@
 
 - 需要会 TypeScript 的基础语法、`async/await`、npm 的基本使用。
 - 不需要后端经验，第 1 章从“一次 HTTP 请求由什么组成”讲起。
-- 不需要数据库：TaskHub 用内存数据结构模拟数据库，让注意力集中在 HTTP 层。想接入真实数据库，可以在学完后阅读本仓库的 [Drizzle ORM 教程](../drizzle-orm-tutorial/README.md)。
+- 不需要数据库：TaskHub 用内存数据结构模拟数据库，让注意力集中在 HTTP 层。想接入真实数据库，可以在学完后阅读本仓库的 [Drizzle ORM 教程](../9.drizzle-orm-tutorial/README.md)。
 - 不需要 Python、Docker。
 
 ## 贯穿项目：TaskHub
