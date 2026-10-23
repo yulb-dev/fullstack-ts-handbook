@@ -1,0 +1,59 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  contract-and-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # 下面的 breaking 检查需要拿到 main 分支上的旧契约
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # ① 生成物是否过期：改了路由 schema 却没重新生成 → 失败
+      - name: Contract drift check
+        run: pnpm contract:check
+
+      # apps/web 不允许绕过 api-client 直接引用服务端代码
+      - name: Dependency boundaries
+        run: pnpm boundaries:check
+
+      # ② 契约本身是否是合法的 OpenAPI
+      - name: Lint OpenAPI
+        run: pnpm --filter @taskflow/api-client lint:openapi
+
+      # ③ 前后端各自编译：契约变化导致的类型错误在这里暴露
+      - run: pnpm typecheck
+
+      # ④ 契约测试、错误映射测试、组件测试
+      - run: pnpm test
+
+  breaking-changes:
+    # 只在 PR 上比较「main 的契约」与「本分支的契约」
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Extract base contract
+        # 写在工作区内：oasdiff 是 Docker Action，只能看到挂载进容器的工作区文件
+        run: git show origin/${{ github.base_ref }}:packages/api-client/openapi.json > base-openapi.json
+      - name: Detect breaking changes
+        uses: oasdiff/oasdiff-action/breaking@main
+        with:
+          base: base-openapi.json
+          revision: packages/api-client/openapi.json
+          fail-on: ERR
+          review: false # 不把契约上传到第三方

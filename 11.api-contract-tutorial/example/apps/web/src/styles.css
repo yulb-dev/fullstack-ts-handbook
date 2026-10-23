@@ -1,0 +1,74 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #1f2937;
+  background: #f8fafc;
+}
+main,
+form.card {
+  max-width: 720px;
+  margin: 2rem auto;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  margin-block: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  background: white;
+}
+input,
+textarea,
+select,
+button {
+  font: inherit;
+  padding: 0.4rem 0.6rem;
+}
+[aria-invalid="true"] {
+  border-color: #dc2626;
+  outline-color: #dc2626;
+}
+.field-error {
+  color: #b91c1c;
+  margin: 0;
+  font-size: 0.875rem;
+}
+.error-banner {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: #fef2f2;
+  color: #991b1b;
+}
+.request-id {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+.hint {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+.task-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.task-list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.badge {
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  background: #e2e8f0;
+  font-size: 0.75rem;
+}

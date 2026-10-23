@@ -1,0 +1,7 @@
+packages:
+  - apps/*
+  - packages/*
+
+# pnpm 默认不运行依赖的安装脚本；esbuild（tsx / vite 依赖）需要显式放行
+allowBuilds:
+  esbuild: true

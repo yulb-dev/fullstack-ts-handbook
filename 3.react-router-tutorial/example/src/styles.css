@@ -1,0 +1,82 @@
+:root {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #1a1a1a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* 顶部全局进度条：busy 时占满宽度 */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: crimson;
+  opacity: 0;
+  transition: width 300ms ease, opacity 200ms ease;
+  z-index: 100;
+}
+.progress[data-busy="true"] {
+  width: 100%;
+  opacity: 1;
+}
+
+header nav {
+  display: flex;
+  gap: 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e5e5;
+}
+header nav a {
+  text-decoration: none;
+  color: #333;
+}
+/* NavLink 自动加的类名 */
+header nav a.active {
+  color: crimson;
+  font-weight: 700;
+}
+header nav a.pending {
+  opacity: 0.5;
+}
+
+main,
+.layout {
+  padding: 16px;
+}
+
+.concerts-layout {
+  display: flex;
+  gap: 24px;
+  padding: 16px;
+}
+.concerts-layout aside {
+  width: 180px;
+  border-right: 1px solid #eee;
+}
+
+footer {
+  padding: 16px;
+  color: #888;
+  border-top: 1px solid #eee;
+}
+
+.field-error {
+  color: crimson;
+  font-size: 0.85rem;
+  margin-left: 8px;
+}
+input[aria-invalid="true"] {
+  outline: 1px solid crimson;
+}
+label {
+  display: inline-block;
+  margin: 6px 0;
+}

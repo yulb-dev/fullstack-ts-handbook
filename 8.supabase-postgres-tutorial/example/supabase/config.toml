@@ -1,0 +1,94 @@
+# Teamboard 本地开发栈配置。
+# 用 `supabase init` 生成的文件比这里更长；不同 CLI 版本的默认段落也会不同。
+# 这里保留了本教程依赖或需要你理解的设置，没有列出的项使用 CLI 默认值。
+# 完整参考：https://supabase.com/docs/guides/local-development/cli/config
+#
+# 本文件可以提交到 Git：它不包含任何秘密。需要秘密的地方一律写 env(变量名)，
+# 真实值放在项目根目录的 .env（不提交）或部署平台的密钥管理里。
+
+# 区分同一台机器上的多个本地项目（容器名前缀），与云端 project ref 无关
+project_id = "teamboard"
+
+[api]
+enabled = true
+port = 54321
+# 只有这里列出的 schema 会生成 REST/GraphQL 端点。private 不在其中。
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+# 单次请求最多返回的行数：防止意外或恶意的超大查询（第 5 章）
+max_rows = 1000
+# 与云端新项目的默认行为对齐：新表不会自动授予 anon/authenticated/service_role 权限，
+# 必须在迁移里显式 grant（第 8 章）。
+auto_expose_new_tables = false
+
+[db]
+port = 54322
+shadow_port = 54320
+# 必须与线上数据库的大版本一致。线上执行 `show server_version;` 确认。
+major_version = 17
+
+[db.pooler]
+# 本地默认不启用连接池；第 10 章做实验时可以打开，端口 54329
+enabled = false
+port = 54329
+pool_mode = "transaction"
+default_pool_size = 20
+max_client_conn = 100
+
+[db.migrations]
+enabled = true
+
+[db.seed]
+# db reset 时在迁移之后执行种子数据；路径相对于 supabase/ 目录
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[studio]
+enabled = true
+port = 54323
+api_url = "http://127.0.0.1"
+
+# 本地邮件收件箱：注册确认、魔法链接邮件都不会真的发出，而是出现在这里
+[local_smtp]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+# 全局上传上限；每个桶还可以设置更小的 file_size_limit（第 11 章）
+file_size_limit = "50MiB"
+
+[auth]
+enabled = true
+# 前端开发服务器地址（Vite 默认 5173）。用于邮件里的链接与重定向白名单。
+site_url = "http://127.0.0.1:5173"
+additional_redirect_urls = ["http://localhost:5173"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+enable_signup = true
+enable_anonymous_sign_ins = false
+minimum_password_length = 8
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+# 本地为了方便关闭邮箱确认；线上项目在 Dashboard 中保持开启
+enable_confirmations = false
+
+# 示例：第三方登录的密钥一律通过 env() 引用，不写死在文件里
+# [auth.external.github]
+# enabled = true
+# client_id = "env(SUPABASE_AUTH_EXTERNAL_GITHUB_CLIENT_ID)"
+# secret = "env(SUPABASE_AUTH_EXTERNAL_GITHUB_SECRET)"
+
+[edge_runtime]
+enabled = true
+
+[analytics]
+enabled = true
+port = 54327
+
+# 新版 CLI 默认使用 pg-delta 作为 db diff / db pull 的差异引擎
+[experimental.pgdelta]
+enabled = true

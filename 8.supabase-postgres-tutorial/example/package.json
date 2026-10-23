@@ -1,0 +1,31 @@
+{
+  "name": "teamboard-supabase-tutorial",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.6"
+  },
+  "scripts": {
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:status": "supabase status",
+    "db:reset": "supabase db reset",
+    "db:test": "supabase test db",
+    "db:types": "supabase gen types --lang typescript --local > database.types.ts",
+    "dev:users": "node --env-file=.env.local scripts/create-dev-users.mjs",
+    "demo:rls": "node --env-file=.env.local scripts/rls-demo.mjs",
+    "demo:admin": "node --env-file=.env.local scripts/admin-report.mjs",
+    "demo:pg": "node --env-file=.env.local scripts/pg-direct.mjs",
+    "demo:storage": "node --env-file=.env.local scripts/storage-demo.mjs",
+    "job:cleanup": "node --env-file=.env.local scripts/storage-cleanup.mjs",
+    "verify:offline": "node scripts/verify-sql-offline.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.118.0",
+    "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.11",
+    "supabase": "2.121.0"
+  }
+}

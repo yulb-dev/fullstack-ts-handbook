@@ -1,0 +1,14 @@
+node_modules/
+
+# 各环境的真实配置与密钥一律不提交，只保留模板
+.env
+.env.*
+!.env.example
+
+# Supabase CLI 的本地状态
+supabase/.temp/
+supabase/.branches/
+
+# 第 13 章生成的备份文件：可能包含个人数据，绝不进入 Git
+backups/
+*.dump

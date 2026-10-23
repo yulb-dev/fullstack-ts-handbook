@@ -1,0 +1,24 @@
+{
+  "name": "@taskflow/api-client",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./openapi.json": "./openapi.json"
+  },
+  "scripts": {
+    "generate": "openapi-typescript openapi.json --output src/generated/openapi.ts",
+    "lint:openapi": "redocly lint openapi.json --format=stylish",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "openapi-fetch": "0.17.0"
+  },
+  "devDependencies": {
+    "@redocly/cli": "2.67.0",
+    "openapi-typescript": "7.13.0",
+    "typescript": "5.9.3",
+    "vitest": "5.0.5"
+  }
+}

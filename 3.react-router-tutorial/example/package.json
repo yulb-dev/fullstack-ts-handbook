@@ -1,0 +1,32 @@
+{
+  "name": "concert-hub",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "React Router Data Mode 教程配套示例（Concert Hub）",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router": "^8.5.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.5.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.1.0",
+    "jsdom": "^30.0.0",
+    "typescript": "^7.0.0",
+    "vite": "^8.0.0",
+    "vitest": "^5.0.0"
+  }
+}

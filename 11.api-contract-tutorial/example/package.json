@@ -1,0 +1,18 @@
+{
+  "name": "taskflow-contract",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.11.2",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "contract:generate": "pnpm --filter @taskflow/api openapi:export && pnpm --filter @taskflow/api-client generate",
+    "contract:check": "node scripts/check-contract.mjs",
+    "boundaries:check": "node scripts/check-boundaries.mjs",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "dev:api": "pnpm --filter @taskflow/api dev",
+    "dev:web": "pnpm --filter @taskflow/web dev"
+  }
+}

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Harbor 认证学习</title>
+  <style>
+    body { max-width: 850px; margin: 40px auto; padding: 0 20px; font: 16px/1.7 system-ui; }
+    section { border: 1px solid #ddd; padding: 18px; margin: 18px 0; }
+    input, select, button { padding: 8px; margin: 4px; font: inherit; }
+    label { display: block; } pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+    button { cursor: pointer; } #message { min-height: 2em; }
+  </style>
+</head>
+<body>
+  <h1>Harbor：从登录到 workspace 权限</h1>
+  <p>此页面用于学习真实请求链，不是生产 UI。注册后在 API 终端查看本地验证链接。</p>
+  <p id="message" role="status" aria-live="polite"></p>
+  <section>
+    <h2>注册与登录</h2>
+    <form id="signup">
+      <label>显示名 <input name="name" required autocomplete="name" /></label>
+      <label>邮箱 <input name="email" type="email" required autocomplete="email" /></label>
+      <label>密码（至少 12 字符）<input name="password" type="password" required minlength="12" autocomplete="new-password" /></label>
+      <button>注册并发送验证邮件</button>
+    </form>
+    <form id="signin">
+      <label>邮箱 <input name="email" type="email" required autocomplete="username" /></label>
+      <label>密码 <input name="password" type="password" required autocomplete="current-password" /></label>
+      <button>登录</button>
+    </form>
+    <button id="github">GitHub 登录（配置凭证后使用）</button>
+    <button id="signout">退出当前会话</button>
+    <button id="revoke">撤销其他会话</button>
+    <button id="me">刷新我的身份</button>
+    <pre id="identity">尚未加载身份</pre>
+  </section>
+  <section>
+    <h2>忘记密码与重置</h2>
+    <form id="forgot">
+      <label>邮箱 <input name="email" type="email" required autocomplete="email" /></label>
+      <button>发送重置链接</button>
+    </form>
+    <form id="reset">
+      <label>新密码 <input name="password" type="password" required minlength="12" autocomplete="new-password" /></label>
+      <button>用当前 URL 中的重置 token 修改密码</button>
+    </form>
+  </section>
+  <section>
+    <h2>Workspace 与成员</h2>
+    <form id="workspace"><label>名称 <input name="name" required /></label><button>创建 workspace</button></form>
+    <button id="workspaces">列出我所属的 workspace</button>
+    <pre id="workspace-list"></pre>
+    <label>当前 workspace ID <input id="workspace-id" /></label>
+    <form id="member">
+      <label>已有用户 ID <input name="userId" required /></label>
+      <label>角色 <select name="role"><option>viewer</option><option>editor</option><option>admin</option></select></label>
+      <button>以 owner 身份添加成员</button>
+    </form>
+  </section>
+  <section>
+    <h2>任务</h2>
+    <form id="task"><label>标题 <input name="title" required /></label><button>创建任务</button></form>
+    <button id="tasks">刷新当前 workspace 的任务</button>
+    <div id="task-list"></div>
+  </section>
+  <script type="module" src="/main.ts"></script>
+</body>
+</html>
