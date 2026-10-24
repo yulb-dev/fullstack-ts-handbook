@@ -1,0 +1,61 @@
+/* ============================================================
+   theme.css —— 全部设计 token（第 8 章 8.9）
+   两层结构：原始色板（Tailwind 内置变量）→ 语义 token（app-*）
+   色值审计规则：除本文件外，任何组件/页面不得出现硬编码色值
+   ============================================================ */
+
+/* 手动切换深色模式：dark 变体挂到 .dark 类上（第 7 章 7.2） */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 第一层 + 中间变量：亮暗两套语义值（第 8 章 8.4） */
+:root {
+  --app-bg: var(--color-gray-100);
+  --app-surface: var(--color-white);
+  --app-surface-raised: var(--color-gray-50);
+  --app-text: var(--color-gray-900);
+  --app-text-muted: var(--color-gray-500);
+  --app-border: var(--color-gray-200);
+  --app-accent: var(--color-blue-600);
+  --app-accent-hover: var(--color-blue-700);
+  --app-accent-soft: var(--color-blue-100);
+  --app-accent-contrast: var(--color-white);
+  --app-danger: var(--color-red-600);
+  --app-danger-soft: var(--color-red-100);
+}
+.dark {
+  /* 深色守则（第 7 章 7.4）：非纯黑背景、非纯白文字、accent 降饱和 */
+  --app-bg: var(--color-gray-950);
+  --app-surface: var(--color-gray-900);
+  --app-surface-raised: var(--color-gray-800);
+  --app-text: var(--color-gray-100);
+  --app-text-muted: var(--color-gray-400);
+  --app-border: var(--color-gray-700);
+  --app-accent: var(--color-blue-500);
+  --app-accent-hover: var(--color-blue-400);
+  --app-accent-soft: oklch(from var(--color-blue-500) l c h / 15%);
+  --app-accent-contrast: var(--color-white);
+  --app-danger: var(--color-red-400);
+  --app-danger-soft: oklch(from var(--color-red-400) l c h / 15%);
+}
+
+/* 第二层：注册为工具类。inline 让工具类直接引用 --app-*，
+   切换 .dark 时变量换了值，工具类自动跟随（第 8 章 8.5） */
+@theme inline {
+  --color-app-bg: var(--app-bg);
+  --color-app-surface: var(--app-surface);
+  --color-app-surface-raised: var(--app-surface-raised);
+  --color-app-text: var(--app-text);
+  --color-app-text-muted: var(--app-text-muted);
+  --color-app-border: var(--app-border);
+  --color-app-accent: var(--app-accent);
+  --color-app-accent-hover: var(--app-accent-hover);
+  --color-app-accent-soft: var(--app-accent-soft);
+  --color-app-accent-contrast: var(--app-accent-contrast);
+  --color-app-danger: var(--app-danger);
+  --color-app-danger-soft: var(--app-danger-soft);
+
+  /* 非颜色 token 一并集中管理 */
+  --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-card-hover:
+    0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}

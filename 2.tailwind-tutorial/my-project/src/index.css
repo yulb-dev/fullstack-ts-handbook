@@ -1,1 +1,10 @@
+/* index.css —— 入口只做装配（第 8 章 8.8 / 第 9 章 9.3） */
 @import "tailwindcss";
+@import "./theme.css";
+
+/* base 层保持极简：只放真正全局的元素级默认 */
+@layer base {
+  body {
+    @apply bg-app-bg font-sans text-app-text antialiased;
+  }
+}

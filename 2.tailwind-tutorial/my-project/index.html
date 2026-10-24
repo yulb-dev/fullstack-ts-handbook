@@ -6,12 +6,22 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <!-- 响应式的前提：没有这个 meta，移动端断点全部失效 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My First Tailwind Page</title>
+  <title>TaskBoard</title>
+  <!-- 防 FOUC：必须在 head 内联、渲染前执行（第 7 章 7.3）
+       逻辑：用户显式选过就用用户的选择；没选过就跟随系统 -->
+  <script>
+    document.documentElement.classList.toggle(
+      "dark",
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches),
+    );
+  </script>
 </head>
 
 <body>
   <!-- 下面两行是 React 的生命线，永远不要删 -->
-  <div id="root" class="bg-amber-200"></div>
+  <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 
