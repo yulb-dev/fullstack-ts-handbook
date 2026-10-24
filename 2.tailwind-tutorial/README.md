@@ -24,7 +24,7 @@
 | 章节     | 标题                                                                  | 内容概要                                                                      |
 | -------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
 | 第 1 章  | [基础 CSS：学 Tailwind 之前必须懂的事](./01-css-fundamentals.md)      | 层叠与特异性、盒模型、CSS 变量、Preflight 重置样式                            |
-| 第 2 章  | [环境搭建：从 0 创建第一个项目](./02-setup-first-project.md)          | Vite + Tailwind v4 安装、项目结构、第一个页面、Play CDN                       |
+| 第 2 章  | [环境搭建：从 0 创建第一个项目](./02-setup-first-project.md)          | Vite + React 安装 Tailwind v4、index.html 与组件的职责边界、第一个页面、Play CDN |
 | 第 3 章  | [utility-first 核心思想](./03-utility-first-thinking.md)              | 什么是 utility class、与内联样式/传统 CSS 的区别、如何思考                    |
 | 第 4 章  | [常用 utility 体系详解](./04-core-utilities.md)                       | 间距、尺寸、排版、颜色、边框、阴影、flex、grid、定位、z-index、溢出、容器宽度 |
 | 第 5 章  | [响应式设计](./05-responsive-design.md)                               | 断点、移动端优先、max-\* 区间、自定义断点、容器查询、实战                     |

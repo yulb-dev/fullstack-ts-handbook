@@ -29,12 +29,15 @@ Tailwind 不是一份"全量样式库"。它的工作流程是：
 
 ### 第 1 步：创建项目
 
+本教程从第 3 章起的所有示例都是 React/JSX，所以直接用 React + TypeScript 模板：
+
 ```bash
-npm create vite@latest my-project
+npm create vite@latest my-project -- --template react-ts
 cd my-project
+npm install
 ```
 
-（框架选择 vanilla / react / vue 都可以，本教程示例以 React 为主，纯 HTML 也完全通用。）
+（pnpm 用户：`pnpm create vite my-project --template react-ts`。如果你更熟悉 Vue / Svelte，插件配置完全一样，只是把 JSX 换成对应模板语法；想先用纯 HTML 感受一下，选 `vanilla` 模板，本章 2.3 末尾附了对应写法。）
 
 ### 第 2 步：安装 Tailwind
 
@@ -46,46 +49,59 @@ npm install tailwindcss @tailwindcss/vite
 
 ### 第 3 步：配置 Vite 插件
 
+在模板生成的 `vite.config.ts` 里**追加**插件，注意不要覆盖掉已有的 `react()`：
+
 ```ts
 // vite.config.ts
-import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [tailwindcss()],
+  plugins: [react(), tailwindcss()],
 });
 ```
 
-### 第 4 步：创建 CSS 入口
+删掉 `react()` 会立刻遇到 JSX 无法编译、Fast Refresh 失效——这是照抄文档片段（包括本教程的片段）时最常见的事故。
 
-新建（或改写）`src/index.css`，只需一行：
+### 第 4 步：清空模板自带 CSS，建立 Tailwind 入口
+
+Vite 的 React 模板自带一套"欢迎页"样式（`src/index.css` + `src/App.css`），里面有 `#root { width: 1126px; text-align: center; }`、`h1 { font-size: 56px }`、`:root { font: 18px/145% ... }` 这类规则。它们要么优先级高于工具类（id 选择器谁也压不住），要么直接改掉了根字号（Tailwind 的 `rem` 尺寸全跟着变），**会让你误以为 Tailwind 没生效**。所以先清干净。
+
+把 `src/index.css` 的全部内容替换成一行：
 
 ```css
 @import "tailwindcss";
 ```
 
+再删掉 `src/App.css` 和 `src/assets/` 里的模板图片（`App.tsx` 里对它们的 import 会在第 5 步整体替换时一并消失）。
+
 **没有 `tailwind.config.js`，没有 `@tailwind base/components/utilities` 三连**。v4 是 CSS-first 配置：一行 `@import` 引入全部内容，所有定制（主题、断点、深色模式策略、扫描源）之后都写在 CSS 里。如果你看到某个教程让你创建 `tailwind.config.js` 并写 `@tailwind base;`，那是 v3 的写法。
 
-确认 JS 入口引入了这个 CSS 文件（Vite 模板通常已引入）：
+CSS 入口由 JS 引入才会被打包，模板的 `src/main.tsx` 已经做了这件事，确认一下即可：
 
-```js
-// src/main.jsx 或 src/main.js
+```tsx
+// src/main.tsx
 import "./index.css";
 ```
 
-### 第 5 步：启动并使用
+### 第 5 步：写第一个组件并启动
+
+把 `src/App.tsx` 整体替换为：
+
+```tsx
+export default function App() {
+  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+}
+```
+
+注意是 `className` 不是 `class`：`class` 在 JS 里是保留字，JSX 一律用 `className`（同理 `for` → `htmlFor`），写错了 React 会在控制台告警。
 
 ```bash
 npm run dev
 ```
 
-在页面里写第一个标题：
-
-```html
-<h1 class="text-3xl font-bold underline">Hello world!</h1>
-```
-
-保存后浏览器里应立刻看到 3xl 字号、加粗、带下划线的标题。恭喜，环境搭好了。
+浏览器里应立刻看到 3xl 字号、加粗、带下划线的标题。没看到就先看 Vite 的终端输出和页面上的红色错误浮层，再对照 2.6 排查表。恭喜，环境搭好了。
 
 ### 其他集成方式速览
 
@@ -98,7 +114,95 @@ npm run dev
 
 ## 2.3 你的第一个完整页面
 
-把下面的内容放进 `index.html`（vanilla）或你的入口组件（React/Vue），我们逐段解读：
+React 项目里，**页面结构写在组件里，不写在 `index.html` 里**。`index.html` 只是一个外壳：它提供 `<div id="root">` 挂载点，并加载 `/src/main.tsx`；脚本跑起来之后，`#root` 内部的一切都由组件决定。
+
+> ⚠️ **最常见的事故**：照着静态 HTML 教程，把一整份 `<!doctype html>...</html>` 覆盖进 React 项目的 `index.html`，顺手删掉了 `<div id="root">` 和 `<script type="module" src="/src/main.tsx">`。结果 React 根本没被加载（或报 `createRoot(...): Target container is not a DOM element`），页面白屏——看上去就像"改了 html 也不生效"。记住：**在 React/Vue 项目里，`index.html` 只改 `lang`、`title`、`meta`，其余内容一律进组件。**
+
+### 第 1 步：`index.html` 只动三处
+
+```html
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- 响应式的前提：没有这个 meta，移动端断点全部失效 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My First Tailwind Page</title>
+  </head>
+  <body>
+    <!-- 下面两行是 React 的生命线，永远不要删 -->
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+```
+
+三处修改：`lang="zh-CN"`、`title`、确认 viewport meta 存在（Vite 模板本来就有）。
+
+### 第 2 步：页面写进 `App.tsx`
+
+```tsx
+// src/App.tsx
+export default function App() {
+  return (
+    <div className="min-h-screen bg-gray-100 font-sans text-gray-900 antialiased">
+      <main className="mx-auto max-w-3xl px-4 py-12">
+        <h1 className="text-4xl font-extrabold tracking-tight">
+          我的第一个 <span className="text-blue-600">Tailwind</span> 页面
+        </h1>
+        <p className="mt-4 text-lg leading-relaxed text-gray-600">
+          这段文字使用了 mt-4（上外边距）、text-lg（字号）、leading-relaxed（行高）和
+          text-gray-600（颜色）四个工具类。
+        </p>
+
+        <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+          <div className="flex-1 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <h2 className="text-xl font-semibold">卡片一</h2>
+            <p className="mt-2 text-sm text-gray-500">
+              移动端上下堆叠，sm 断点以上并排。
+            </p>
+          </div>
+          <div className="flex-1 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <h2 className="text-xl font-semibold">卡片二</h2>
+            <p className="mt-2 text-sm text-gray-500">
+              试着拖动浏览器窗口宽度看布局变化。
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          className="mt-8 cursor-pointer rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white transition
+                     hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2
+                     focus-visible:outline-blue-600 active:bg-blue-800"
+        >
+          一个带完整交互状态的按钮
+        </button>
+      </main>
+    </div>
+  );
+}
+```
+
+两个 JSX 细节：
+
+- `class` → `className`，`for` → `htmlFor`；
+- 按钮那种超长类名直接写成多行字符串就够用了；等第 9 章引入 `clsx` + `tailwind-merge` 的 `cn()` 之后，条件类名才有正规解法。
+
+关于"根元素基调类"（`bg-gray-100 font-sans text-gray-900`）：上面放在了 App 的最外层 `div`（配合 `min-h-screen` 撑满一屏），组件自包含、方便复用。你也可以直接写在 `index.html` 的 `<body>` 标签上——React 只接管 `#root` 内部，不会动 body 的属性，两种都行；但到了深色模式（第 7 章）类名要跟着 JS 状态切换，放组件里更顺手。
+
+逐段解读（现在不求全懂，建立整体印象，后续章节逐个击破）：
+
+- `min-h-screen bg-gray-100 font-sans text-gray-900`：给最外层容器定下高度、背景、字体、默认文字颜色——**在根容器上定基调，是 Tailwind 项目的常见模式**；
+- `mx-auto max-w-3xl px-4 py-12`：容器宽度（max-w-3xl）+ 水平居中（mx-auto）+ 内边距，这是"内容列"的标准配方；
+- `flex flex-col gap-4 sm:flex-row`：默认（移动端）纵向排列，`sm` 断点以上横向排列——**移动端优先**的第一次亮相（第 5 章详解）；
+- `rounded-xl border border-gray-200 bg-white p-6 shadow-sm`：圆角 + 边框（注意 v4 中 border 必须显式给颜色，第 1 章讲过）+ 白底 + 内边距 + 浅阴影，一张卡片的完整"皮肤"；
+- 按钮上的 `hover:` / `focus-visible:` / `active:` 前缀叫**变体（variant）**，让同一个元素在不同交互状态下呈现不同样式（第 6 章详解）。另外注意那个 `cursor-pointer`：v4 的 Preflight 不再给按钮默认手型光标，得自己加（见 2.6）。
+
+### 附：vanilla / 纯 HTML 项目的写法
+
+如果你第 1 步选的是 `vanilla` 模板（没有框架接管页面），那么整份 HTML 就是你的页面，Tailwind 类直接写在标签上（此时用 `class` 而不是 `className`）。关键是 `<head>` 里要有 viewport meta，并且保留模板对 CSS 入口的引用：
 
 ```html
 <!doctype html>
@@ -114,55 +218,19 @@ npm run dev
       <h1 class="text-4xl font-extrabold tracking-tight">
         我的第一个 <span class="text-blue-600">Tailwind</span> 页面
       </h1>
-      <p class="mt-4 text-lg leading-relaxed text-gray-600">
-        这段文字使用了
-        mt-4（上外边距）、text-lg（字号）、leading-relaxed（行高） 和
-        text-gray-600（颜色）四个工具类。
-      </p>
-
-      <div class="mt-8 flex flex-col gap-4 sm:flex-row">
-        <div
-          class="flex-1 rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
-        >
-          <h2 class="text-xl font-semibold">卡片一</h2>
-          <p class="mt-2 text-sm text-gray-500">
-            移动端上下堆叠，sm 断点以上并排。
-          </p>
-        </div>
-        <div
-          class="flex-1 rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
-        >
-          <h2 class="text-xl font-semibold">卡片二</h2>
-          <p class="mt-2 text-sm text-gray-500">
-            试着拖动浏览器窗口宽度看布局变化。
-          </p>
-        </div>
-      </div>
-
-      <button
-        type="button"
-        class="mt-8 rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white transition
-               hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2
-               focus-visible:outline-blue-600 active:bg-blue-800"
-      >
-        一个带完整交互状态的按钮
-      </button>
+      <!-- 中间内容与上面 App.tsx 逐一对应，仅 class 写法不同 -->
     </main>
+    <!-- vanilla 模板的入口脚本，同样不要删 -->
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
 ```
 
-逐段解读（现在不求全懂，建立整体印象，后续章节逐个击破）：
-
-- `bg-gray-100 font-sans text-gray-900`：给 body 设置背景、字体、默认文字颜色——**在根元素上定基调，是 Tailwind 项目的常见模式**；
-- `mx-auto max-w-3xl px-4 py-12`：容器宽度（max-w-3xl）+ 水平居中（mx-auto）+ 内边距，这是"内容列"的标准配方；
-- `flex flex-col gap-4 sm:flex-row`：默认（移动端）纵向排列，`sm` 断点以上横向排列——**移动端优先**的第一次亮相（第 5 章详解）；
-- `rounded-xl border border-gray-200 bg-white p-6 shadow-sm`：圆角 + 边框（注意 v4 中 border 必须显式给颜色，第 1 章讲过）+ 白底 + 内边距 + 浅阴影，一张卡片的完整"皮肤"；
-- 按钮上的 `hover:` / `focus-visible:` / `active:` 前缀叫**变体（variant）**，让同一个元素在不同交互状态下呈现不同样式（第 6 章详解）。
+CSS 入口仍然是 `src/index.css` 里的一行 `@import "tailwindcss";`，并由 `src/main.js` 引入——这一点与 React 完全一致。
 
 ### 验证"按需生成"
 
-打开 DevTools 检查 `<h1>`，你会看到 `.text-4xl`、`.font-extrabold` 等规则真实存在；而在 Sources 面板里看生成的 CSS 文件，它只包含你用到的类。试着删掉页面里的 `underline` 类名保存，再全局搜索编译产物——`.underline` 规则消失了。**类名驱动生成，用多少生成多少**，这就是 2.1 说的原理在你眼前的实证。
+打开 DevTools 检查 `<h1>`，你会看到 `.text-4xl`、`.font-extrabold` 等规则真实存在；在 Network 面板过滤 CSS（或直接点开 `index.css` 的响应内容），它只包含你用到的类。试着删掉 `App.tsx` 里的 `underline` 保存，HMR 刷新后再搜一次产物——`.underline` 规则消失了。**类名驱动生成，用多少生成多少**，这就是 2.1 说的原理在你眼前的实证。
 
 ### 哪些文件会被扫描
 
@@ -226,26 +294,35 @@ npm install -D prettier prettier-plugin-tailwindcss
 
 ## 2.6 常见新手问题排查
 
-| 症状                          | 原因                                                          | 解决                                                                          |
-| ----------------------------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| 类名写了完全没效果            | CSS 入口没有 `@import "tailwindcss"`，或入口 CSS 没被 JS 引入 | 检查 2.2 第 4 步                                                              |
-| 手机上页面不缩放，断点全乱    | `<head>` 缺 viewport meta                                     | 加 `<meta name="viewport" content="width=device-width, initial-scale=1.0" />` |
-| 部分样式生效部分不生效        | 类名是运行时拼接的，扫描不到                                  | 第 9 章，改用完整类名映射                                                     |
-| `h1` 又小又不加粗，"不像标题" | Preflight 重置了标题默认样式，属正常行为                      | 自己加 `text-4xl font-bold`（见第 1 章 1.6）                                  |
-| `border` 加上了但看不见颜色   | v4 边框默认色是 `currentColor`                                | 显式加 `border-gray-200` 等颜色类                                             |
-| 按钮鼠标悬停不是手型          | v4 Preflight 跟随浏览器默认 `cursor: default`                 | 加 `cursor-pointer`，或按第 1 章方式在 base 层全局恢复                        |
+| 症状                                     | 原因                                                                          | 解决                                                                              |
+| ---------------------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| 改了 `index.html` 后页面白屏 / 毫无变化 | 把 `<div id="root">` 或 `<script type="module" src="/src/main.tsx">` 删掉了 | `index.html` 只改 lang/title/meta，页面结构写进 `App.tsx`（见 2.3）             |
+| React 里写了 `class`，样式不生效且报警告 | JSX 里必须用 `className`                                                      | 全部改成 `className`（`for` → `htmlFor`）                                        |
+| 类名写了完全没效果                       | CSS 入口没有 `@import "tailwindcss"`，或入口 CSS 没被 JS 引入                 | 检查 2.2 第 4 步                                                                  |
+| 类名生效了，但页面被强行居中 / 宽度固定 / 字号偏大 | 模板自带的 `src/index.css`、`src/App.css` 里的 `#root`、`h1`、`:root` 规则在干扰 | 清空 `index.css` 只留 `@import "tailwindcss";`，并移除 `App.css` 的 import         |
+| 加了 tailwindcss 插件后 JSX 报错 / HMR 异常 | `vite.config.ts` 里模板的 `react()` 插件被覆盖掉了                            | `plugins: [react(), tailwindcss()]` 两个都要留                                     |
+| 手机上页面不缩放，断点全乱               | `<head>` 缺 viewport meta                                                     | 加 `<meta name="viewport" content="width=device-width, initial-scale=1.0" />`     |
+| 部分样式生效部分不生效                   | 类名是运行时拼接的，扫描不到                                                | 第 9 章，改用完整类名映射                                                         |
+| `h1` 又小又不加粗，"不像标题"           | Preflight 重置了标题默认样式，属正常行为                                      | 自己加 `text-4xl font-bold`（见第 1 章 1.6）                                      |
+| `border` 加上了但看不见颜色             | v4 边框默认色是 `currentColor`                                                | 显式加 `border-gray-200` 等颜色类                                                 |
+| 按钮鼠标悬停不是手型                     | v4 Preflight 跟随浏览器默认 `cursor: default`                                 | 加 `cursor-pointer`，或按第 1 章方式在 base 层全局恢复                            |
+
+排查顺序建议：先看终端和页面上的 Vite 错误浮层（编译不过什么都不会渲染）→ 再看控制台 React 警告 → 最后才怀疑 Tailwind 本身。
 
 ## 练习
 
-1. 按 2.2 搭好 Vite 项目，跑通 2.3 的页面，拖动窗口观察卡片布局在 sm 断点的变化；
-2. 给页面再加一张卡片，让它和前两张在 `md` 断点以上三列并排（提示：`md:` 前缀 + grid，不会写可以先跳到第 4、5 章再回来）；
-3. 打开编译产物 CSS，找到 `.text-4xl` 的规则，确认它的 `font-size` 引用了 `var(--text-4xl)`——这是第 8 章主题变量的伏笔；
-4. 安装 IntelliSense 插件，体验输入 `bg-` 时的补全。
+1. 按 2.2 搭好 Vite + React 项目（包括清空模板 CSS），把 2.3 的 `App.tsx` 跑通，拖动窗口观察卡片布局在 sm 断点的变化；
+2. 故意把 `index.html` 里的 `<div id="root">` 注释掉，观察页面和控制台变成什么样子，再恢复它——亲手确认一次"React 项目里 index.html 是外壳"；
+3. 给页面再加一张卡片，让它和前两张在 `md` 断点以上三列并排（提示：`md:` 前缀 + grid，不会写可以先跳到第 4、5 章再回来）；
+4. 打开编译产物 CSS，找到 `.text-4xl` 的规则，确认它的 `font-size` 引用了 `var(--text-4xl)`——这是第 8 章主题变量的伏笔；
+5. 安装 IntelliSense 插件，体验输入 `bg-` 时的补全。
 
 ## 本章小结与自检
 
-- [ ] 能独立用 Vite + `@tailwindcss/vite` 搭建 Tailwind v4 项目；
+- [ ] 能独立用 Vite + `@tailwindcss/vite` 搭建 Tailwind v4 项目，并知道要保留 `react()` 插件；
 - [ ] 知道 v4 的 CSS 入口只有一行 `@import "tailwindcss"`，不需要 JS 配置文件和 `@tailwind` 指令；
+- [ ] 能说出 React 项目里 `index.html` 只是外壳（`#root` + 入口 script 不能删），页面结构和类名写在 `App.tsx` 里并用 `className`；
+- [ ] 知道要先清空 Vite 模板自带的 `index.css` / `App.css`，否则样式会被模板规则干扰；
 - [ ] 能说出"扫描源文件 → 按需生成 CSS"的原理，以及它对"类名必须完整出现"的要求；
 - [ ] 知道哪些文件默认不被扫描，会用 `@source` 显式注册；
 - [ ] 配好了 IntelliSense 和 Prettier 插件；
