@@ -2,7 +2,7 @@
 
 > 本章目标：理解 OTel 的核心概念——API/SDK 分离、trace/span、attributes/resources、context propagation、exporter 与 collector；认清 JS 各信号的成熟度差异。
 >
-> 对应核心概念：**② OpenTelemetry：API/SDK、traces/spans、attributes/resources、context propagation、exporter 与 collector。**
+> 关键概念：OpenTelemetry 的 API/SDK、traces/spans、attributes/resources、context propagation、exporter 与 collector。
 
 ---
 

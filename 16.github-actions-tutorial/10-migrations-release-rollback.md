@@ -2,7 +2,7 @@
 
 > 本章目标：处理数据库迁移与部署的顺序（先测试迁移、expand-migrate-contract）；建立发布标识与回滚的完整流程；写一份可执行的回滚说明。
 >
-> 对应核心概念：**⑥ 迁移与部署顺序、expand-migrate-contract；⑦ 部署回滚与发布标识。**
+> 关键概念：迁移与部署顺序、expand-migrate-contract、部署回滚与发布标识。
 
 ---
 

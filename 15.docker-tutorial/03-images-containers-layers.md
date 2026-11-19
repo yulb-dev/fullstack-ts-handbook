@@ -2,7 +2,7 @@
 
 > 本章目标：把第 2 章的手感升级为概念——镜像/容器/layer/registry 的精确含义、写时复制、镜像的分发与版本标识；学会用 `inspect` / `history` 观察镜像内部。
 >
-> 对应核心概念：**① 镜像、容器、layer、registry、entrypoint/cmd 的区别。**
+> 关键概念：镜像、容器、layer、registry、entrypoint/cmd 的区别。
 
 ---
 

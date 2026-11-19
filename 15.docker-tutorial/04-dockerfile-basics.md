@@ -2,7 +2,7 @@
 
 > 本章目标：掌握 Dockerfile 核心指令与构建上下文；为 Workboard API 写出第一个能跑的镜像（故意保留「 naive 版」的问题，第 5、6 章逐层优化）；理解 `.dockerignore` 为什么是第一道安全防线。
 >
-> 对应核心概念：**① entrypoint/cmd；② Dockerfile 与 .dockerignore。** 对应练习：**练习 1（起步）。**
+> 关键概念：entrypoint/cmd、Dockerfile 与 .dockerignore。｜ 动手练习：练习 1（起步）。
 
 ---
 

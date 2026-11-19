@@ -2,7 +2,7 @@
 
 > 本章目标：用 NodeSDK + 自动插桩 instrument Fastify API；处理 ESM loader hook；用 console/OTLP exporter 按环境导出；写手动业务 span；避开两个实测版本坑；完成练习 3。
 >
-> 对应核心概念：**② OTel 插桩、exporter。** 对应练习：**练习 3。**
+> 关键概念：OTel 插桩、exporter。｜ 动手练习：练习 3。
 
 ---
 

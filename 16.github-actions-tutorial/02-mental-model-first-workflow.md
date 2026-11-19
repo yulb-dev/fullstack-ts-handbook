@@ -2,7 +2,7 @@
 
 > 本章目标：精确理解 workflow / event / job / step / runner 五个概念；写出并跑通第一个 workflow；学会在 GitHub UI 观察 run 的结构与日志。
 >
-> 对应核心概念：**① workflow、event、job、step、runner。**
+> 关键概念：workflow、event、job、step、runner。
 
 ---
 

@@ -2,7 +2,7 @@
 
 > 本章目标：在 Fastify 接入 @sentry/node；用显式捕获 + requestId tag 关联错误；用 dataCollection 关闭敏感采集；理解与 OTel 的初始化顺序。
 >
-> 对应核心概念：**① Sentry 后端；⑦ 隐私与安全。**
+> 关键概念：Sentry 后端接入、隐私与安全。
 
 ---
 

@@ -98,7 +98,7 @@ example/
 
 | 章节     | 标题                                                                          | 你将掌握                                                   | 对应核心概念 |
 | -------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------ |
-| 第 1 章  | [为什么需要 CI/CD](./01-why-ci-cd.md)                                         | 门禁即证据、部署即流程、本教程地图                         | 总目标       |
+| 第 1 章  | [CI/CD 与 GitHub Actions 是什么](./01-why-ci-cd.md)                           | CI/CD 与 GitHub Actions 是什么、为什么需要                 | 总目标       |
 | 第 2 章  | [心智模型与第一个 workflow](./02-mental-model-first-workflow.md)              | workflow/event/job/step/runner、触发与观察                 | ①            |
 | 第 3 章  | [事件与触发器](./03-events-and-triggers.md)                                   | push/PR/dispatch/schedule、路径过滤、fork 事件边界         | ① ④          |
 | 第 4 章  | [job 编排：needs、matrix、concurrency](./04-jobs-needs-matrix-concurrency.md) | 依赖图、矩阵、取消策略、job 间传值                         | ①            |

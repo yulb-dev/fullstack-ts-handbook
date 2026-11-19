@@ -96,7 +96,7 @@ example/
 
 | 章节     | 标题                                                              | 你将掌握                                                              | 对应核心概念 |
 | -------- | ----------------------------------------------------------------- | --------------------------------------------------------------------- | ------------ |
-| 第 1 章  | [为什么需要 Docker](./01-why-docker.md)                           | 环境漂移的根源、容器 vs 虚拟机、本教程地图                            | 总目标       |
+| 第 1 章  | [Docker 是什么](./01-why-docker.md)                               | Docker/容器/镜像是什么、为什么需要、术语词典                          | 总目标       |
 | 第 2 章  | [安装与第一个容器](./02-setup-and-first-container.md)             | Docker Desktop/Engine、run/exec/logs/stop、第一个 postgres 容器       | ①            |
 | 第 3 章  | [镜像、容器与层](./03-images-containers-layers.md)                | layer/registry/写时复制、pull/tag/inspect/history、容器生命周期       | ①            |
 | 第 4 章  | [Dockerfile 基础](./04-dockerfile-basics.md)                      | FROM/RUN/COPY/CMD/ENTRYPOINT、.dockerignore、第一个 API 镜像          | ① ②          |

@@ -2,7 +2,7 @@
 
 > 本章目标：掌握 push / pull_request / workflow_dispatch / schedule 四类触发器与过滤；理解 fork PR 的信任边界（pull_request vs pull_request_target）——这是 CI 安全的第一道分水岭。
 >
-> 对应核心概念：**① event；④ fork PR 的不可信代码边界（入门）。**
+> 关键概念：event 触发器、fork PR 的不可信代码边界（入门）。
 
 ---
 

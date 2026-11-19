@@ -2,7 +2,7 @@
 
 > 本章目标：接入 @sentry/react；用 React 19 错误钩子 + ErrorBoundary 捕获渲染错误；配置 release/environment；建立 source maps 上传策略；触发前端异常并按 release/environment 找到它（练习 1）。
 >
-> 对应核心概念：**① Sentry 前端：错误事件、release/environment、source maps。** 对应练习：**练习 1。**
+> 关键概念：Sentry 前端——错误事件、release/environment、source maps。｜ 动手练习：练习 1。
 
 ---
 

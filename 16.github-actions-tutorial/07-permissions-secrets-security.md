@@ -2,7 +2,7 @@
 
 > 本章目标：GITHUB_TOKEN 最小权限；secrets 的正确使用与脱敏边界；脚本注入的成因与防御；第三方 action 的供应链风险与钉 SHA；self-hosted runner 的边界。本章是安全关键项，必须全部通过。
 >
-> 对应核心概念：**④ permissions 最小化、secrets/environment protection、fork PR 不可信代码边界。**
+> 关键概念：permissions 最小化、secrets/environment protection、fork PR 不可信代码边界。
 
 ---
 

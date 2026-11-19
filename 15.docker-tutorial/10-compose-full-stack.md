@@ -2,7 +2,7 @@
 
 > 本章目标：把第 7 章的手动组网升级为声明式编排——完整 compose.yaml（db + api + web）、`depends_on` 的就绪语义、healthcheck、网络/volume/环境变量插值；掌握 up/down/logs/ps 日常操作与「从干净环境重建」的验证。
 >
-> 对应核心概念：**④ Compose 的服务依赖、健康检查、网络、volume、环境变量；⑦ 启动顺序与 ready≠started。** 对应练习：**练习 3。**
+> 关键概念：Compose 的服务依赖、健康检查、网络、volume、环境变量、启动顺序与 ready≠started。｜ 动手练习：练习 3。
 
 ---
 

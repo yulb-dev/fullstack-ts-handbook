@@ -2,7 +2,7 @@
 
 > 本章目标：落地 deploy.yml——受信任分支守卫、environment 审批、逐 job 最小权限、OIDC 短期凭据、版本标识（commit sha）与健康验证；理解「部署权限与 PR 权限分离」。
 >
-> 对应核心概念：**④ secrets/environment protection；⑦ 环境审批、发布标识；⑧ OIDC 优先于长期静态密钥。** 对应练习：**练习 3。**
+> 关键概念：secrets/environment protection、环境审批、发布标识、OIDC 优先于长期静态密钥。｜ 动手练习：练习 3。
 
 ---
 

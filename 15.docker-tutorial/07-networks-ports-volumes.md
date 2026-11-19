@@ -2,7 +2,7 @@
 
 > 本章目标：理解 bridge 网络与容器 DNS（服务名即主机名）、端口映射的方向、volume 与 bind mount 的区别；用两个容器手动组网，为第 10 章 Compose 打底。
 >
-> 对应核心概念：**① 端口映射、volume、network。**
+> 关键概念：端口映射、volume、network。
 
 ---
 

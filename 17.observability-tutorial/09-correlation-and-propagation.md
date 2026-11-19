@@ -2,7 +2,7 @@
 
 > 本章目标：用 requestId + trace_id 把 Sentry 事件、Pino 日志、OTel trace 串联；理解前后端 trace 传播的两种格式与取舍；落实「避免重复 instrumentation」。
 >
-> 对应核心概念：**⑤ 前后端关联；⑧ 避免重复 instrumentation，明确 Sentry 与 OTel 的范围。**
+> 关键概念：前后端关联、避免重复 instrumentation、明确 Sentry 与 OTel 的范围。
 
 ---
 

@@ -2,7 +2,7 @@
 
 > 本章目标：分清 cache 与 artifacts；落地 main.yml（集成测试 + 生产构建上的 E2E）；失败时上传 Playwright trace/报告与测试结果；理解诊断产物的安全边界。
 >
-> 对应核心概念：**⑤ Cache 与 artifacts 区别；保存测试报告、coverage、Playwright trace 等诊断产物。** 对应练习：**练习 2。**
+> 关键概念：Cache 与 artifacts 区别、保存测试报告/coverage/Playwright trace 等诊断产物。｜ 动手练习：练习 2。
 
 ---
 

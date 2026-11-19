@@ -2,7 +2,7 @@
 
 > 本章目标：把 Vite 前端构建为静态文件并用 nginx 发布（SPA fallback + /api 反向代理）；说清「为什么 Vite dev server 不能当生产服务器」；理解 Supabase 本地栈与 Docker runtime 的关系。
 >
-> 对应核心概念：**⑦ Supabase 本地栈依赖 Docker runtime；服务启动顺序与 ready≠started。** 对应练习：**练习 2。**
+> 关键概念：Supabase 本地栈依赖 Docker runtime、服务启动顺序与 ready≠started。｜ 动手练习：练习 2。
 
 ---
 

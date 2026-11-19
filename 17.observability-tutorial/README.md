@@ -99,7 +99,7 @@ example/
 
 | 章节     | 标题                                                           | 你将掌握                                                       | 对应核心概念 |
 | -------- | -------------------------------------------------------------- | -------------------------------------------------------------- | ------------ |
-| 第 1 章  | [为什么需要可观测性](./01-why-observability.md)                | 四个问题、三支柱区别、地图                                     | ③            |
+| 第 1 章  | [可观测性是什么](./01-why-observability.md)                    | 可观测性/Sentry/OTel 是什么、三支柱区别                        | ③            |
 | 第 2 章  | [结构化日志与 Pino](./02-structured-logging-pino.md)           | 可查询字段、redact、子 logger                                  | ④            |
 | 第 3 章  | [requestId 与错误 envelope](./03-request-id-error-envelope.md) | requestId 贯穿三处、错误契约、测试                             | ④ · 练习 2   |
 | 第 4 章  | [Sentry 心智模型](./04-sentry-mental-model.md)                 | 事件/issue grouping/release/environment/DSN                    | ①            |

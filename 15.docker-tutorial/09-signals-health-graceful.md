@@ -2,7 +2,7 @@
 
 > 本章目标：理解 PID 1 与信号传递（exec vs shell 形式、--init）；实现 SIGTERM 优雅关闭（先停 HTTP 再放连接池）；区分 liveness 与 readiness 并写对 healthcheck；理解 Fastify 为什么必须监听 0.0.0.0。
 >
-> 对应核心概念：**③ 进程信号传递、SIGTERM 优雅关闭；⑥ Fastify 监听 0.0.0.0、readiness 与 liveness。**
+> 关键概念：进程信号传递、SIGTERM 优雅关闭、Fastify 监听 0.0.0.0、readiness 与 liveness。
 
 ---
 

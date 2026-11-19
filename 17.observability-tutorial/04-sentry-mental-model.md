@@ -2,7 +2,7 @@
 
 > 本章目标：理解 Sentry 的核心概念——错误事件、issue grouping、release/environment、DSN、性能事务与采样；建立「Sentry 管错误、OTel 管 trace」的分工认知。
 >
-> 对应核心概念：**① Sentry：错误事件、issue grouping、release/environment、source maps、性能事务与采样。**
+> 关键概念：Sentry 的错误事件、issue grouping、release/environment、source maps、性能事务与采样。
 
 ---
 

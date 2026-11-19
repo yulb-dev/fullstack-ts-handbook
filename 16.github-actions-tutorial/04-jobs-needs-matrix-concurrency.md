@@ -2,7 +2,7 @@
 
 > 本章目标：用 needs 表达 job 依赖图；用 matrix 做多变体并行；用 concurrency 控制重复 run；掌握 job/step 间传值（outputs / GITHUB_ENV）。
 >
-> 对应核心概念：**① needs、matrix、concurrency。**
+> 关键概念：needs、matrix、concurrency。
 
 ---
 

@@ -2,7 +2,7 @@
 
 > 本章目标：理解结构化日志为什么是排障地基；用 Fastify 内置 Pino 输出可查询字段；用 redact 做敏感字段脱敏；理解子 logger 与日志级别。
 >
-> 对应核心概念：**④ Fastify/Pino 结构化日志：requestId、route、duration、statusCode、error code 等可查询字段。**
+> 关键概念：Fastify/Pino 结构化日志——requestId、route、duration、statusCode、error code 等可查询字段。
 
 ---
 

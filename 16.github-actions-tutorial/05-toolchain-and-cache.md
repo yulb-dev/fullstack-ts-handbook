@@ -2,7 +2,7 @@
 
 > 本章目标：用 packageManager + pnpm/action-setup + setup-node 锁定工具链；frozen lockfile 保证依赖一致；配置 pnpm store 缓存加速；牢记「缓存加速但不保正确性」。
 >
-> 对应核心概念：**② 锁定 pnpm/Node 版本、frozen lockfile、cache 加速但不依赖缓存保障正确性。**
+> 关键概念：锁定 pnpm/Node 版本、frozen lockfile、cache 加速但不依赖缓存保障正确性。
 
 ---
 
