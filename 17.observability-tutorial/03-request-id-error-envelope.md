@@ -35,6 +35,8 @@ request.log.error({ err, statusCode, code }, "request failed");
 
 ## 3.2 稳定错误 envelope
 
+**envelope（信封）**指「统一的错误响应包装格式」——所有错误都装进同一个 `{ error: { code, message, requestId } }` 结构，前端不用猜每个接口返回什么形状。
+
 ```json
 {
   "error": {
@@ -83,7 +85,7 @@ app.setErrorHandler((err: unknown, request, reply) => {
 
 ## 3.3 用测试证明关联（练习 2）
 
-`test/app.test.ts` 的关键断言：
+`test/app.test.ts` 的关键断言（`inject` 是 Fastify 「不起端口、直接模拟发请求」的测试方法）：
 
 ```ts
 it("响应头 x-request-id 与错误 envelope 的 requestId 同源", async () => {

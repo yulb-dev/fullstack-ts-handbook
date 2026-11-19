@@ -67,7 +67,9 @@ new SimpleSpanProcessor({ exporter }); // ✓ 3.x：options 对象
 
 ## 8.4 ESM 必须加载 loader hook
 
-OTel 自动插桩要 patch 模块加载。ESM 下需要 hook：
+先说清 **ESM / CJS**：Node 的两种模块系统——ESM 用 `import/export`（`package.json` 设 `"type": "module"`），CJS 用 `require/module.exports`（旧式）。本项目是 ESM。
+
+OTel 自动插桩要 patch（拦截改写）模块加载。ESM 下需要 hook：
 
 ```bash
 # 开发（tsx）：--import 先加载 instrumentation

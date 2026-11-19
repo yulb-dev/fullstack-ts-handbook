@@ -20,7 +20,7 @@
 
 ## 8.2 main.yml：比 PR 更重的验证
 
-PR 门禁跑单元/集成 + build；main 再加一层 **E2E smoke**（真实浏览器、生产构建）：
+PR 门禁跑单元/集成 + build；main 再加一层 **E2E smoke**（E2E=端到端测试，用真实浏览器走完整用户流程；smoke=冒烟测试，只跑最关键的几条路径，阶段 13 详讲）：
 
 ```yaml
 name: Main

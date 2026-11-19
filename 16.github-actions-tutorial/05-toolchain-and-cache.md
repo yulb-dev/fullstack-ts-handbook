@@ -26,6 +26,8 @@ CI 的第一条军规：**runner 上的 Node 与 pnpm 版本必须与仓库声�
 
 ## 5.2 frozen lockfile：可复现的护栏
 
+**lockfile（锁文件，如 `pnpm-lock.yaml`）**记录每个依赖的精确版本，是「依赖树的唯一真相」（阶段 14 详讲）。
+
 `pnpm install --frozen-lockfile`：package.json 与 lockfile 不一致 → **直接失败**。它把「依赖树」钉死在仓库声明上：
 
 - 全新 runner 装出的依赖树 = 你本地的依赖树 = 上次 CI 的依赖树；

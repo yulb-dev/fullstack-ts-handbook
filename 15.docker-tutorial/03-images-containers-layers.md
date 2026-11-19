@@ -52,7 +52,7 @@ registry.example.com:5000/team/workboard-api:1.4.2
 ```
 
 - 省略 registry 时默认 `docker.io`（Docker Hub）；`postgres:18` 实际是 `docker.io/library/postgres:18`；
-- **tag 是可变的**：`postgres:18` 今天和三个月后可能指向不同内容（官方会滚动更新补丁）。要绝对可复现，用 **digest** 钉死：`postgres:18@sha256:...`（第 12 章讨论取舍）；
+- **tag 是可变的**：`postgres:18` 今天和三个月后可能指向不同内容（官方会滚动更新补丁）。要绝对可复现，用 **digest** 钉死：`postgres:18@sha256:...`（第 12 章讨论取舍）。digest 是镜像内容的「指纹」（一串哈希值）：内容变了指纹就变，所以钉住 digest 就等于钉住了确切内容；
 - 常用命令：
 
 ```bash

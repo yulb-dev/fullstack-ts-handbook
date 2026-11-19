@@ -8,6 +8,13 @@
 
 ## 9.1 docker stop 到底做了什么
 
+先补两个基础概念：
+
+- **PID（进程号）**：操作系统给每个进程的唯一编号。**PID 1** 是容器里第一个启动的进程（「始祖」），Docker 的信号只发给它；
+- **信号（signal）**：操作系统发给进程的「通知」。**SIGTERM** = 「请你优雅退出」（可捕获、可做清理）；**SIGKILL** = 「立即强杀」（不可捕获、不容清理）；**SIGINT** = 键盘 Ctrl+C。
+
+「优雅关闭」就是：进程收到 SIGTERM 后，先把手头的事做完（处理完在途请求、释放连接）再退出，而不是被强杀。
+
 ```
 docker stop <容器>
    │  1. 发 SIGTERM 给容器内 PID 1
@@ -35,7 +42,7 @@ shell 形式下 `/bin/sh` 是 PID 1，**sh 不会把 SIGTERM 转发给子进程*
 docker exec <容器> ps aux   # PID 1 应该是 node，不是 sh
 ```
 
-> 需要 shell 能力（如入口脚本做初始化）时，脚本最后一行用 `exec "$@"` 把进程「交棒」给应用（postgres 官方镜像的 entrypoint 就是这么写的）；或者用 `docker run --init` / Compose `init: true` 引入 tini 作为 PID 1 负责转发信号与收割僵尸进程。**单进程 Node 服务用 exec 形式 CMD 就够了**。
+> 需要 shell 能力（如入口脚本做初始化）时，脚本最后一行用 `exec "$@"` 把进程「交棒」给应用（postgres 官方镜像的 entrypoint 就是这么写的）；或者用 `docker run --init` / Compose `init: true` 引入 tini（一个极小的初始化进程）作为 PID 1，负责转发信号与收割僵尸进程（已退出但未被回收的进程）。**单进程 Node 服务用 exec 形式 CMD 就够了**。
 
 ## 9.3 优雅关闭的实现
 

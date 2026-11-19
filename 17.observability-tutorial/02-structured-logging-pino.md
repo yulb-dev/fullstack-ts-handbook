@@ -20,7 +20,7 @@
 
 ## 2.2 Fastify 内置 Pino
 
-Fastify 默认集成 Pino（高性能 JSON logger）。开启即自动记录请求/响应：
+Fastify 默认集成 Pino（一个高性能的 JSON 日志库；logger 就是「写日志的工具」，替代你随手写的 console.log）。开启即自动记录请求/响应：
 
 ```ts
 const app = Fastify({ logger: true });

@@ -29,9 +29,11 @@ on:
 
 - `branches` 在 push 里指**被推送的分支**，在 pull_request 里指**目标分支**；
 - `paths` / `paths-ignore` 按变更文件过滤——monorepo 里「只改 README 不跑全量 CI」靠它（更精细的 affected 过滤见阶段 14 第 12 章）；
-- `schedule` 用 UTC cron，且**只在默认分支生效**。
+- `schedule` 用 UTC cron（一种用五个字段表达「几分几时几日几月星期几」的定时语法），且**只在默认分支生效**。
 
 ## 3.2 fork PR：不可信代码的信任边界
+
+先认识两个词：**PR（Pull Request）**是「请求把我的改动合并进你的分支」；**fork** 是别人把你的仓库整个复制一份到他自己的账号下——fork 来的 PR 带的是**陌生人的代码**，不可信。
 
 这是路线图点名的安全要点。两种 PR 事件的本质区别：
 

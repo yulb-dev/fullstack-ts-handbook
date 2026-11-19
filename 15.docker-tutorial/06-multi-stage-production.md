@@ -68,8 +68,8 @@ CMD ["node", "dist/server.js"]
 
 逐点解释：
 
-1. **四个阶段**：base（共享底座）→ deps（依赖层，第 5 章的缓存设计）→ build（编译 + 裁剪）→ runtime（最终镜像）。BuildKit 只构建目标阶段依赖的阶段；
-2. **runtime 只有三样**：生产 node_modules、package.json（`node` 解析 ESM 需要它声明 `"type": "module"`）、dist。源码、tsconfig、测试、构建工具都不在；
+1. **四个阶段**：base（共享底座）→ deps（依赖层，第 5 章的缓存设计）→ build（编译 + 裁剪）→ runtime（最终镜像）。BuildKit（Docker 现行的构建引擎）只构建目标阶段依赖的阶段；
+2. **runtime 只有三样**：生产 node_modules、package.json（`node` 解析 ESM 需要它声明 `"type": "module"`；ESM 即 `import/export` 模块语法，与旧式 CJS 的 `require` 相对）、dist。源码、tsconfig、测试、构建工具都不在；
 3. **`USER node`**：node 官方镜像自带 uid=1000 的 `node` 用户。非 root 意味着：即使应用被攻破，容器内也不是 root，逃逸难度大增。**这是路线图的安全红线项**；
 4. **`ENV NODE_ENV=production`**：这是非秘密的运行模式声明，可以烘焙；数据库密码等秘密绝不这样写（第 8 章）；
 5. **`CMD ["node", "dist/server.js"]`**：exec 形式，node 直接做 PID 1（第 9 章）。
@@ -83,7 +83,7 @@ docker images | grep workboard-api
 # workboard-api   naive    ...   明显更大（源码 + 全部 devDependencies）
 ```
 
-进一步缩小可选 `node:24-alpine`（musl libc，更小），但要注意原生模块兼容性；本教程用 `bookworm-slim`（glibc，兼容性最稳）。**先正确，再小**。
+进一步缩小可选 `node:24-alpine`（基于 musl libc，更小），但要注意原生模块兼容性；本教程用 `bookworm-slim`（基于 glibc，兼容性最稳）。musl/glibc 是两种 C 标准库实现，某些含原生二进制的依赖只预编译了 glibc 版，在 alpine 上会跑不起来。**先正确，再小**。
 
 ## 6.5 没有 Docker 也能验证：宿主机演练
 

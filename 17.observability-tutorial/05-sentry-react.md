@@ -118,13 +118,13 @@ pnpm --filter @workboard/web dev
 
 ## 5.6 常见坑
 
-| 现象                    | 原因                           | 解决                               |
-| ----------------------- | ------------------------------ | ---------------------------------- |
-| 早期错误没捕获          | instrument 不是第一个 import   | 入口首行 import                    |
-| 堆栈是 minified 代码    | 没上传 map / release 不匹配    | 5.4 三步 + release 一致            |
-| 源码被用户下载          | map 留在公开产物               | filesToDeleteAfterUpload           |
-| AUTH_TOKEN 泄漏到前端   | 加了 VITE\_ 前缀               | 只用 SENTRY*AUTH_TOKEN（无 VITE*） |
-| 控制台手动 throw 不上报 | DevTools 沙箱错误不被 SDK 捕获 | 用页面按钮触发（官方说明）         |
+| 现象                    | 原因                           | 解决                                        |
+| ----------------------- | ------------------------------ | ------------------------------------------- |
+| 早期错误没捕获          | instrument 不是第一个 import   | 入口首行 import                             |
+| 堆栈是 minified 代码    | 没上传 map / release 不匹配    | 5.4 三步 + release 一致                     |
+| 源码被用户下载          | map 留在公开产物               | filesToDeleteAfterUpload                    |
+| AUTH_TOKEN 泄漏到前端   | 加了 VITE\_ 前缀               | 只用 `SENTRY_AUTH_TOKEN`（无 `VITE_` 前缀） |
+| 控制台手动 throw 不上报 | DevTools 沙箱错误不被 SDK 捕获 | 用页面按钮触发（官方说明）                  |
 
 ## 5.7 本章验收清单
 

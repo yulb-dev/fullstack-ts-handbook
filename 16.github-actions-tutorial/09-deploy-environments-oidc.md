@@ -30,6 +30,8 @@ GitHub 仓库 Settings → Environments → New environment `production`：
 
 传统做法：把云的长期 access key 存进 GitHub secrets——**长期有效、泄露即灾难**。OIDC（OpenID Connect）的做法：
 
+> 几个词：**JWT** 是一种带签名的「身份令牌」（一段可验证的 JSON）；**claims** 是令牌里的一条条声明（如「我是哪个仓库/哪个环境」）；**sub**（subject）是其中「我是谁」那条。云侧靠核对 claims 来决定信不信你。
+
 ```
 job 声明 id-token: write
    → GitHub OIDC provider 为该 job 签发短期 JWT（含 sub/aud/repository/environment 等 claims）

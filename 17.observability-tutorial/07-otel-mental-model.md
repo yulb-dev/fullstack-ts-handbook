@@ -10,6 +10,8 @@
 
 OpenTelemetry（OTel）是**可观测性数据的生成与采集标准 + 工具集**。它定义 trace/metric/log 的统一数据模型与 API，提供各语言 SDK 与自动插桩，把数据导出到任意后端（Jaeger、Tempo、Sentry、云厂商）。**厂商中立**是它的核心价值：换后端不用改应用代码。
 
+两个词先说清：**插桩（instrumentation）**指「在代码里插入记录遥测数据的逻辑」——自动插桩就是工具替你给 http/数据库等库自动加上，不用改业务代码；**Jaeger** 是一个开源的 trace 查看后端（带 UI，能看请求的因果树）。
+
 ## 7.2 API 与 SDK 分离
 
 | 层  | 职责                                 | 包                         |
@@ -17,7 +19,7 @@ OpenTelemetry（OTel）是**可观测性数据的生成与采集标准 + 工具�
 | API | 定义「怎么创建 span/记录属性」的接口 | @opentelemetry/api         |
 | SDK | 实现「怎么处理/采样/导出」           | @opentelemetry/sdk-node 等 |
 
-业务代码只依赖 API（`trace.getTracer(...).startActiveSpan(...)`）；SDK 在启动时注册实现。**没注册 SDK 时 API 是 no-op**——库作者可以安全地 instrument 而不强制用户接 OTel。
+业务代码只依赖 API（`trace.getTracer(...).startActiveSpan(...)`）；SDK 在启动时注册实现。**没注册 SDK 时 API 是 no-op（空操作，什么都不做）**——库作者可以安全地 instrument 而不强制用户接 OTel。
 
 ## 7.3 trace 与 span
 
@@ -54,7 +56,7 @@ span 的父子关系靠 **context** 传递：
 
 ## 7.6 exporter 与 collector
 
-- **exporter**：把 span 发出去（ConsoleSpanExporter 打印、OTLPTraceExporter 走 OTLP 协议）；
+- **exporter**：把 span 发出去（ConsoleSpanExporter 打印、OTLPTraceExporter 走 OTLP 协议——OTLP 是 OTel 定义的标准传输协议）；
 - **collector**：独立的中转服务，接收 → 处理（采样/脱敏/批处理）→ 分发到多个后端。
 
 ```

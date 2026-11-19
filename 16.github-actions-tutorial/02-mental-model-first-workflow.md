@@ -8,6 +8,8 @@
 
 ## 2.1 五个概念的精确关系
 
+先认识两个词：**YAML** 是一种靠缩进表达层级的配置文件格式（比 JSON 少了括号引号，更适合人读）；**action** 是别人写好的可复用步骤（如「拉代码」「装 Node」），用 `uses:` 引用；**VM（虚拟机）** 在这里指 GitHub 临时开给你的一台完整 Linux 机器。
+
 ```
 workflow（.github/workflows/*.yml，一份 YAML 一个 workflow）
   └─ on: event（什么事件触发：push / pull_request / workflow_dispatch ...）

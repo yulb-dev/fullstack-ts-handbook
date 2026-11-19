@@ -20,11 +20,11 @@ jobs:
   build-and-push:
     permissions:
       contents: read
-      packages: write # 只有这个 job 需要推 GHCR
+      packages: write # 只有这个 job 需要推 GHCR（GitHub Container Registry，GitHub 的镜像仓库）
   deploy:
     permissions:
       contents: read
-      id-token: write # 只有这个 job 需要 OIDC
+      id-token: write # 只有这个 job 需要 OIDC（用短期凭据换云访问权，第 9 章）
 ```
 
 原则（官方 secure use reference）：**顶层设只读默认，按 job 最小提升**。仓库设置里还可把默认权限改为 read-only（Settings → Actions → General → Workflow permissions），双保险。
@@ -67,7 +67,7 @@ env:
 `uses: some/action@v1` 的 tag 是**可变的**——作者（或盗号者）可以把 v1 指向恶意代码，你的 secrets 就进了别人的脚本。防御层级：
 
 1. **优先官方/verified creator**（actions/_、docker/_、pnpm/\*）；
-2. **钉全长度 commit SHA**：`uses: some/action@<40位sha> # v1.2.3`——不可变；用 Dependabot 的 `package-ecosystem: github-actions` 自动提更新 PR；
+2. **钉全长度 commit SHA**（SHA 是 git 给每个提交算的唯一指纹哈希）：`uses: some/action@<40位sha> # v1.2.3`——不可变；用 Dependabot 的 `package-ecosystem: github-actions` 自动提更新 PR；
 3. 更强的新机制：**workflow dependency lockfile**（记录每个 action 及传递依赖的精确 commit 并校验来源），官方称其取代 SHA 钉死；
 4. 审计 action 源码：它把 secrets 发去哪了？
 

@@ -18,12 +18,12 @@
 
 ## 10.2 采样策略
 
-| 层              | 配置                                     | 建议                               |
-| --------------- | ---------------------------------------- | ---------------------------------- |
-| Sentry 性能事务 | `tracesSampleRate`（0~1）                | 生产 0.1 甚至更低                  |
-| Sentry 错误     | 默认全量                                 | 错误不采样（或用 beforeSend 限流） |
-| OTel trace      | sampler（如 `TraceIdRatioBasedSampler`） | 生产按比例；错误 trace 强制留      |
-| 前端 replay     | replaysSessionSampleRate / OnError       | 会话低采样、出错全采               |
+| 层                                          | 配置                                     | 建议                               |
+| ------------------------------------------- | ---------------------------------------- | ---------------------------------- |
+| Sentry 性能事务                             | `tracesSampleRate`（0~1）                | 生产 0.1 甚至更低                  |
+| Sentry 错误                                 | 默认全量                                 | 错误不采样（或用 beforeSend 限流） |
+| OTel trace                                  | sampler（如 `TraceIdRatioBasedSampler`） | 生产按比例；错误 trace 强制留      |
+| 前端 replay（会话回放，录下用户操作供重现） | replaysSessionSampleRate / OnError       | 会话低采样、出错全采               |
 
 OTel 侧本教程本地全量（便于观察），生产可在 NodeSDK 配 `sampler`，或在 **collector 做尾采样**（tail sampling：等 trace 完整后，只保留含错误/慢的 trace）——collector 采样的优势是能看到整条 trace 再决定。
 
@@ -51,8 +51,8 @@ OTel 侧本教程本地全量（便于观察），生产可在 NodeSDK 配 `samp
 
 可观测性的终点是「主动发现问题」而非「等用户报障」：
 
-- **SLI**（指标）：错误率（5xx/总请求）、延迟（p95/p99）、可用性；
-- **SLO**（目标）：如「99.9% 请求成功、p99 < 500ms」；
+- **SLI**（Service Level Indicator，服务等级指标）：错误率（5xx/总请求）、延迟（p95/p99，即 95%/99% 的请求快于该值）、可用性；
+- **SLO**（Service Level Objective，服务等级目标）：如「99.9% 请求成功、p99 < 500ms」；
 - **告警阈值**：错误率突增、p99 超标、某 issue 首次出现（回归）；
 - **部署后回归**：新版本发布后盯错误率/延迟（结合阶段 16 的 release 标识）；
 - **故障复盘**：每次事故写复盘（第 11 章模板）。
