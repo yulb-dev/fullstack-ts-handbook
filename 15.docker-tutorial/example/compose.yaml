@@ -1,0 +1,61 @@
+services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: workboard
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-workboard_dev}
+      POSTGRES_DB: workboard
+    ports:
+      - "5432:5432"
+    volumes:
+      # postgres 18 镜像的数据卷挂载点是 /var/lib/postgresql
+      - pgdata:/var/lib/postgresql
+      # 首次启动（数据目录为空）时按文件名顺序执行初始化 SQL
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      # 「容器 started」不等于「数据库 ready」：用 pg_isready 探测真实可用性
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      # 容器网络里数据库的主机名是服务名 db，不是 localhost
+      DATABASE_URL: postgres://workboard:${POSTGRES_PASSWORD:-workboard_dev}@db:5432/workboard
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        # 等 db 健康检查通过才启动 api，而不是 merely started
+        condition: service_healthy
+    healthcheck:
+      # slim 镜像没有 curl：用 Node 自带的 fetch 探测 readiness
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 15s
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/web.Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  pgdata:

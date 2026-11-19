@@ -1,0 +1,49 @@
+# PR 质量门禁：format / lint / typecheck / test / build 全绿才允许合并。
+# 安全基线：顶层最小权限；不接触任何 secrets；fork PR 与同仓 PR 一视同仁地安全。
+name: CI
+
+on:
+  pull_request:
+
+# 同一 PR 的新 push 取消旧 run，省 runner
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# 最小权限：只读代码。需要更多权限的 job 单独提升（见 deploy.yml）
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # pnpm/action-setup 读 package.json 的 packageManager 字段，锁定 pnpm 版本
+      - uses: pnpm/action-setup@v6
+
+      # setup-node 的 cache: pnpm 需要 pnpm 已就位，所以顺序在 action-setup 之后
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      # frozen lockfile：清单与锁文件不一致直接失败，可复现的护栏
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Format
+        run: pnpm format:check
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit & integration tests
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build

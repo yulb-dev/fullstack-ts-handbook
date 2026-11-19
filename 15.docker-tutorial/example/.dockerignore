@@ -1,0 +1,18 @@
+# 构建上下文排除清单：越小越好，且绝不能把秘密送进构建上下文
+node_modules
+**/node_modules
+dist
+**/dist
+coverage
+**/coverage
+.git
+.github
+.env
+.env.*
+*.log
+*.tsbuildinfo
+.vite
+.turbo
+.DS_Store
+*.md
+docs

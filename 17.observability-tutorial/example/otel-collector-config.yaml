@@ -1,0 +1,27 @@
+# OTel Collector：接收 API 的 OTLP span，转发到 Jaeger。
+#  collector 的价值：解耦「应用导出」与「后端存储」，可加采样/脱敏/多后端分发。
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+processors:
+  batch: {}
+
+exporters:
+  otlp/jaeger:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+  debug:
+    verbosity: basic
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/jaeger, debug]

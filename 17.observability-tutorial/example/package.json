@@ -1,0 +1,16 @@
+{
+  "name": "workboard-obs-example",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.11.2",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @workboard/api --filter @workboard/web dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "smoke:api": "pnpm --filter @workboard/api smoke"
+  }
+}

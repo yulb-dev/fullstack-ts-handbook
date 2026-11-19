@@ -1,0 +1,100 @@
+# 部署：与 PR 验证完全分离的权限边界。
+# - 只允许 main 分支手动触发（workflow_dispatch + if 守卫）
+# - environment: production 提供审批闸门与 environment secrets
+# - OIDC（id-token: write）换取云短期凭据，不存长期静态密钥
+# - 镜像 tag = commit sha：发布标识 + 回滚锚点（第 9、10 章）
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "要部署的镜像 tag（留空=当前 commit；回滚时填上一个稳定 sha）"
+        required: false
+        default: ""
+
+# 顶层权限全关，按 job 最小授予
+permissions: {}
+
+# 同一环境串行部署，不取消进行中的部署
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  build-and-push:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # 推 GHCR 需要
+    outputs:
+      image_tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Resolve image tag
+        id: meta
+        run: echo "tag=${{ inputs.image_tag || github.sha }}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push API image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/api.Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository }}/api:${{ steps.meta.outputs.tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    # 受保护环境：可配置 required reviewers（人工审批）与 environment secrets
+    environment: production
+    permissions:
+      contents: read
+      id-token: write # OIDC：换取云短期凭据
+    steps:
+      # OIDC 示例（AWS）：在云侧配置信任本仓库的 production environment 后启用。
+      # 其他云/平台换成对应 login action；不支持 OIDC 的平台才退回 secrets 静态凭据。
+      - name: Configure cloud credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      # 平台相关的部署动作：这里用通用 webhook 示例（请求体带发布标识）。
+      # 真实项目替换为 ecs deploy / kubectl set image / 平台 CLI 等。
+      - name: Deploy
+        env:
+          DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+          IMAGE_TAG: ${{ needs.build-and-push.outputs.image_tag }}
+        run: |
+          curl -fsS -X POST "$DEPLOY_WEBHOOK_URL" \
+            -H 'content-type: application/json' \
+            -d "{\"image\":\"ghcr.io/${{ github.repository }}/api:$IMAGE_TAG\",\"sha\":\"$GITHUB_SHA\"}"
+
+      # 部署后健康验证：失败即让 job 红，触发回滚流程（第 10 章）
+      - name: Verify production health
+        env:
+          HEALTH_URL: ${{ vars.PRODUCTION_HEALTH_URL }}
+        run: |
+          for i in $(seq 1 10); do
+            if curl -fsS "$HEALTH_URL"; then
+              echo "health check passed"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "health check failed — 按第 10 章回滚到上一个稳定 tag" >&2
+          exit 1

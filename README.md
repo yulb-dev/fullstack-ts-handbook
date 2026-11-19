@@ -18,6 +18,9 @@ fullstack-ts-handbook/
 ├── 12.vitest-tutorial/                  # Vitest 测试
 ├── 13.playwright-e2e-tutorial/          # Playwright 端到端测试
 ├── 14.monorepo-tutorial/                # pnpm + Turborepo Monorepo
+├── 15.docker-tutorial/                  # Docker 与本地可复现环境
+├── 16.github-actions-tutorial/          # GitHub Actions CI/CD
+├── 17.observability-tutorial/           # Sentry + OpenTelemetry + 结构化日志
 ├── 专项/                                 # 各主题的独立长文与 PDF 版本
 ├── docs/
 │   ├── roadmap/                         # 全栈技术栈学习路线图
@@ -27,21 +30,24 @@ fullstack-ts-handbook/
 
 ## 教程专题
 
-| 目录                                 | 主题                     | 说明                                                          |
-| ------------------------------------ | ------------------------ | ------------------------------------------------------------- |
-| `2.tailwind-tutorial/`               | Tailwind CSS             | 从 CSS 基础到 v3/v4 对比与实战项目                            |
-| `3.react-router-tutorial/`           | React Router             | 数据模式（loader/action）、嵌套路由、懒加载与测试             |
-| `4.tanstack-query-zustand-tutorial/` | TanStack Query + Zustand | 服务端状态与客户端状态管理                                    |
-| `5.accessible-forms-tutorial/`       | 表单与无障碍             | shadcn/ui、React Hook Form、Zod                               |
-| `7.fastify-api-tutorial/`            | Fastify                  | 插件、校验、错误模型、OpenAPI 与测试                          |
-| `8.supabase-postgres-tutorial/`      | Supabase / PostgreSQL    | 关系模型、迁移、RLS、连接池与备份                             |
-| `9.drizzle-orm-tutorial/`            | Drizzle ORM              | Schema 建模、迁移、事务、查询与性能                           |
-| `10.better-auth-tutorial/`           | Better Auth              | 会话、CSRF、OAuth、组织与 RBAC                                |
-| `11.api-contract-tutorial/`          | API 契约                 | Monorepo、Schema 即契约、代码生成与 CI                        |
-| `12.vitest-tutorial/`                | Vitest                   | 单元/组件/集成测试、Mock 边界、覆盖率与稳定性                 |
-| `13.playwright-e2e-tutorial/`        | Playwright E2E           | 定位器、自动等待、fixture、storageState、trace 与 CI          |
-| `14.monorepo-tutorial/`              | pnpm + Turborepo         | workspace、依赖隔离与 catalog、任务图、缓存与环境变量建模、CI |
-| `专项/`                              | 专题合集                 | 各主题的单文件长文与 PDF 版本                                 |
+| 目录                                 | 主题                     | 说明                                                             |
+| ------------------------------------ | ------------------------ | ---------------------------------------------------------------- |
+| `2.tailwind-tutorial/`               | Tailwind CSS             | 从 CSS 基础到 v3/v4 对比与实战项目                               |
+| `3.react-router-tutorial/`           | React Router             | 数据模式（loader/action）、嵌套路由、懒加载与测试                |
+| `4.tanstack-query-zustand-tutorial/` | TanStack Query + Zustand | 服务端状态与客户端状态管理                                       |
+| `5.accessible-forms-tutorial/`       | 表单与无障碍             | shadcn/ui、React Hook Form、Zod                                  |
+| `7.fastify-api-tutorial/`            | Fastify                  | 插件、校验、错误模型、OpenAPI 与测试                             |
+| `8.supabase-postgres-tutorial/`      | Supabase / PostgreSQL    | 关系模型、迁移、RLS、连接池与备份                                |
+| `9.drizzle-orm-tutorial/`            | Drizzle ORM              | Schema 建模、迁移、事务、查询与性能                              |
+| `10.better-auth-tutorial/`           | Better Auth              | 会话、CSRF、OAuth、组织与 RBAC                                   |
+| `11.api-contract-tutorial/`          | API 契约                 | Monorepo、Schema 即契约、代码生成与 CI                           |
+| `12.vitest-tutorial/`                | Vitest                   | 单元/组件/集成测试、Mock 边界、覆盖率与稳定性                    |
+| `13.playwright-e2e-tutorial/`        | Playwright E2E           | 定位器、自动等待、fixture、storageState、trace 与 CI             |
+| `14.monorepo-tutorial/`              | pnpm + Turborepo         | workspace、依赖隔离与 catalog、任务图、缓存与环境变量建模、CI    |
+| `15.docker-tutorial/`                | Docker                   | 镜像/容器/层、多阶段构建、Compose、秘密审计、优雅关闭与健康检查  |
+| `16.github-actions-tutorial/`        | GitHub Actions CI/CD     | PR 门禁、最小权限与 fork 安全、artifacts、环境保护与 OIDC、回滚  |
+| `17.observability-tutorial/`         | 可观测性                 | 结构化日志、Sentry 错误监控、OpenTelemetry trace、关联与排障演练 |
+| `专项/`                              | 专题合集                 | 各主题的单文件长文与 PDF 版本                                    |
 
 ## 路线图与毕业项目
 

@@ -1,0 +1,7 @@
+packages:
+  - "apps/*"
+
+allowBuilds:
+  esbuild: true
+  # OTel OTLP exporter 依赖 protobufjs，其 postinstall 生成静态代码，需放行
+  protobufjs: true

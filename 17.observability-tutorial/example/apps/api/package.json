@@ -1,0 +1,32 @@
+{
+  "name": "@workboard/api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --import ./src/instrumentation.ts src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node --import @opentelemetry/instrumentation/hook.mjs --import ./dist/instrumentation.js dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "smoke": "tsx --import ./src/instrumentation.ts src/server.ts"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "^1.10.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.83.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.301.2",
+    "@opentelemetry/instrumentation": "^0.301.2",
+    "@opentelemetry/resources": "^3.1.1",
+    "@opentelemetry/sdk-node": "^0.301.2",
+    "@opentelemetry/sdk-trace": "^3.1.1",
+    "@sentry/node": "^11.13.0",
+    "fastify": "^5.12.8",
+    "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5"
+  }
+}

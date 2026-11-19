@@ -1,0 +1,19 @@
+{
+  "name": "workboard-docker-example",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.11.2",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @workboard/api --filter @workboard/web dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "compose:up": "docker compose up --build -d",
+    "compose:down": "docker compose down",
+    "compose:logs": "docker compose logs -f api",
+    "audit:image": "bash scripts/audit-image.sh workboard-api:local"
+  }
+}

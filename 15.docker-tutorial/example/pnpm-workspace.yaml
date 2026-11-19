@@ -1,0 +1,7 @@
+packages:
+  - "apps/*"
+
+# pnpm 10+ 默认不执行依赖的安装脚本（供应链安全措施）。
+# esbuild（Vite 的依赖）需要 postinstall 下载平台二进制，显式放行。
+allowBuilds:
+  esbuild: true

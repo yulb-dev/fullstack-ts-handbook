@@ -1,0 +1,61 @@
+# 完整可观测性栈：API + Postgres + OTel Collector + Jaeger。
+# 需要 Docker。本地无 Docker 时可用 `pnpm smoke:api`（console span + 内存仓储）。
+services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: workboard
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-workboard_dev}
+      POSTGRES_DB: workboard
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  jaeger:
+    # 本地演示用 latest；生产请钉具体版本/digest（阶段 15 第 12 章）
+    image: jaegertracing/all-in-one:latest
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686" # Jaeger UI
+
+  collector:
+    image: otel/opentelemetry-collector:latest
+    command: ["--config=/etc/otelcol/config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol/config.yaml:ro
+    ports:
+      - "4318:4318" # OTLP HTTP（宿主机调试用）
+    depends_on:
+      - jaeger
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      APP_VERSION: ${APP_VERSION:-1.0.0}
+      DATABASE_URL: postgres://workboard:${POSTGRES_PASSWORD:-workboard_dev}@db:5432/workboard
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
+      OTEL_SERVICE_NAME: workboard-api
+      # SENTRY_DSN 由真实环境注入（不烘焙进镜像）
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+      collector:
+        condition: service_started
+
+volumes:
+  pgdata:
